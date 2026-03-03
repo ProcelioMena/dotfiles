@@ -21,3 +21,10 @@ cask "google-cloud-sdk"
 
 # Architecture & Diagrams
 brew "mermaid-cli"
+
+# Build Dependencies (for ASDF Python/Node)
+brew "openssl"
+brew "readline"
+brew "sqlite3"
+brew "xz"
+brew "zlib"
