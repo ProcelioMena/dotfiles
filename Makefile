@@ -6,10 +6,10 @@ PYTHON_VERSION = 3.11.9
 NODE_VERSION = 22.11.0
 
 # Makefile
-.PHONY: setup brew ohmyzsh claude neovim-config asdf-setup
+.PHONY: setup brew ohmyzsh claude neovim-config asdf-setup zsh-plugins
 
 # Running `make setup` triggers all these targets in order
-setup: brew ohmyzsh claude neovim-config asdf-setup
+setup: brew ohmyzsh claude neovim-config asdf-setup zsh-plugins
 
 brew:
 	@echo "Installing dependencies from Brewfile..."
@@ -85,3 +85,17 @@ asdf-setup:
 	@asdf set --home python $(PYTHON_VERSION)
 	@asdf set --home nodejs $(NODE_VERSION)
 	@echo "Global toolchain locked and loaded."
+
+zsh-plugins:
+	@echo "Installing custom Zsh plugins..."
+	@if [ ! -d "$$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions" ]; then \
+		git clone https://github.com/zsh-users/zsh-autosuggestions "$$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"; \
+	else \
+		echo "zsh-autosuggestions already installed."; \
+	fi
+	@if [ ! -d "$$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting" ]; then \
+		git clone https://github.com/zsh-users/zsh-syntax-highlighting.git "$$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"; \
+	else \
+		echo "zsh-syntax-highlighting already installed."; \
+	fi
+
