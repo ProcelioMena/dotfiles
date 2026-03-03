@@ -1,8 +1,15 @@
+# ==========================================
+# Global Stable Versions
+# ==========================================
+TF_VERSION = 1.9.5
+PYTHON_VERSION = 3.11.9
+NODE_VERSION = 22.11.0
+
 # Makefile
-.PHONY: setup brew ohmyzsh claude neovim-config
+.PHONY: setup brew ohmyzsh claude neovim-config asdf-setup
 
 # Running `make setup` triggers all these targets in order
-setup: brew ohmyzsh claude neovim-config
+setup: brew ohmyzsh claude neovim-config asdf-setup
 
 brew:
 	@echo "Installing dependencies from Brewfile..."
@@ -61,3 +68,21 @@ symlink:
 		ln -s "$$PWD/ssh_config" "$$HOME/.ssh/config"; \
 		echo "Symlinked SSH config successfully."; \
 	fi
+
+asdf-setup:
+	@echo "Setting up asdf plugins..."
+	@asdf plugin add terraform || true
+	@asdf plugin add python || true
+	@asdf plugin add nodejs || true
+	
+	@echo "Installing stable versions (this might take a minute for Python/Node)..."
+	@asdf install terraform $(TF_VERSION)
+	@asdf install python $(PYTHON_VERSION)
+	@asdf install nodejs $(NODE_VERSION)
+	
+	@echo "Setting global defaults..."
+	@asdf global terraform $(TF_VERSION)
+	@asdf global python $(PYTHON_VERSION)
+	@asdf global nodejs $(NODE_VERSION)
+	@echo "Global toolchain locked and loaded."
+
