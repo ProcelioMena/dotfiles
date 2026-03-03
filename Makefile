@@ -35,3 +35,29 @@ neovim-config:
 		echo "Neovim config already exists. Pulling latest updates..."; \
 		git -C "$$HOME/.config/nvim" pull; \
 	fi
+
+symlink:
+	@echo "Symlinking configuration files..."
+	
+	# Handle .zshrc
+	@if [ -f "$$HOME/.zshrc" ] && [ ! -L "$$HOME/.zshrc" ]; then \
+		echo "Backing up existing .zshrc..."; \
+		mv "$$HOME/.zshrc" "$$HOME/.zshrc.backup"; \
+	fi
+	@if [ ! -L "$$HOME/.zshrc" ]; then \
+		ln -s "$$PWD/.zshrc" "$$HOME/.zshrc"; \
+		echo "Symlinked .zshrc successfully."; \
+	fi
+
+	# Handle SSH Config
+	@echo "Setting up SSH configuration..."
+	@mkdir -p "$$HOME/.ssh"
+	@chmod 700 "$$HOME/.ssh"
+	@if [ -f "$$HOME/.ssh/config" ] && [ ! -L "$$HOME/.ssh/config" ]; then \
+		echo "Backing up existing SSH config..."; \
+		mv "$$HOME/.ssh/config" "$$HOME/.ssh/config.backup"; \
+	fi
+	@if [ ! -L "$$HOME/.ssh/config" ]; then \
+		ln -s "$$PWD/ssh_config" "$$HOME/.ssh/config"; \
+		echo "Symlinked SSH config successfully."; \
+	fi

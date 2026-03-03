@@ -18,3 +18,6 @@ brew "gemini-cli"
 # Cloud SDKs
 brew "awscli"
 cask "google-cloud-sdk"
+
+# Architecture & Diagrams
+brew "mermaid-cli"
