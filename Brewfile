@@ -1,6 +1,7 @@
 # Core Shell & Editor
 brew "zsh"
 brew "neovim"
+brew "gh"
 
 # Terminal Navigation & Search
 brew "zoxide"
@@ -28,3 +29,6 @@ brew "readline"
 brew "sqlite3"
 brew "xz"
 brew "zlib"
+
+# Data Eng
+brew "duckdb"

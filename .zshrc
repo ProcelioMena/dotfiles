@@ -131,3 +131,6 @@ alias vim="nvim"
 alias vi="nvim"
 alias tf="terraform"
 export PATH="$HOME/.local/bin:$PATH"
+
+# Wonderful wbuilder
+export PATH="$HOME/workspace/wonderful/andean-site/utils/wbuilder:$PATH"
