@@ -6,10 +6,12 @@ PYTHON_VERSION = 3.11.9
 NODE_VERSION = 22.11.0
 
 # Makefile
-.PHONY: setup brew ohmyzsh claude neovim-config asdf-setup zsh-plugins
+.PHONY: setup brew symlink ohmyzsh claude neovim-config asdf-setup zsh-plugins
 
-# Running `make setup` triggers all these targets in order
-setup: brew ohmyzsh claude neovim-config asdf-setup zsh-plugins
+# Running `make setup` triggers all these targets in order.
+# `symlink` runs before `neovim-config` so the SSH config is in place
+# before the Neovim repo is cloned over SSH.
+setup: brew symlink ohmyzsh claude neovim-config asdf-setup zsh-plugins
 
 brew:
 	@echo "Installing dependencies from Brewfile..."
