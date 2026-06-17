@@ -10,9 +10,6 @@ brew "zoxide"
 brew "asdf"
 brew "direnv"
 
-# Infrastructure
-brew "terraform"
-
 # AI Tooling
 brew "gemini-cli"
 
