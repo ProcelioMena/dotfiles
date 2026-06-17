@@ -132,5 +132,12 @@ alias vi="nvim"
 alias tf="terraform"
 export PATH="$HOME/.local/bin:$PATH"
 
+# 6. Cloud Helpers
+function aws-login() {
+  local profile="${1:-default}"
+  echo "Logging into AWS SSO with profile: $profile..."
+  aws sso login --profile "$profile"
+}
+
 # Wonderful wbuilder
 export PATH="$HOME/workspace/wonderful/andean-site/utils/wbuilder:$PATH"

@@ -44,6 +44,7 @@ make setup
 | `symlink`       | Symlinks `.zshrc` → `~/.zshrc` and `ssh_config` → `~/.ssh/config` (backs up existing files) |
 | `ohmyzsh`       | Installs Oh My Zsh if missing                             |
 | `claude`        | Installs the Claude Code native binary if missing         |
+| `claude-config` | Symlinks `claude_desktop_config.json` for ADO MCP support |
 | `neovim-config` | Clones (or pulls) the Neovim config over SSH              |
 | `asdf-setup`    | Adds asdf plugins and installs/pins the pinned toolchains |
 | `zsh-plugins`   | Installs `zsh-autosuggestions` and `zsh-syntax-highlighting` |
@@ -64,3 +65,5 @@ Defined at the top of the `Makefile`:
 - Assumes Apple Silicon (`.zshrc` sources tooling from `/opt/homebrew`).
 - `.zshrc` includes a project-specific PATH entry (`wbuilder`) that is harmless
   if the referenced directory does not exist.
+- **AWS Login:** Use `aws-login [profile]` (defaults to `default`) to trigger AWS SSO login.
+- **Claude ADO MCP:** Edit `claude_desktop_config.json` with your Azure DevOps PAT and Org URL.

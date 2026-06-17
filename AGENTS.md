@@ -13,6 +13,7 @@ that bootstraps a fresh machine. Every file in the repo root is meaningful:
 | `Makefile`   | The entrypoint. `make setup` provisions a new machine; targets are idempotent. |
 | `.zshrc`     | Symlinked to `~/.zshrc`. Oh My Zsh + tooling hooks (asdf, direnv, zoxide, gcloud, aws). |
 | `ssh_config` | Symlinked to `~/.ssh/config`. Multiple Git hosts/identities.         |
+| `claude_desktop_config.json` | Symlinked to `~/Library/Application Support/Claude/claude_desktop_config.json`. |
 | `Brewfile`   | `brew bundle` manifest — all Homebrew packages/casks.                |
 | `README.md`  | Human-facing lift-and-shift instructions. Keep it in sync with edits. |
 | `.gitignore` | Excludes secrets: `id_*`, `*.pem`.                                   |
@@ -23,7 +24,7 @@ that bootstraps a fresh machine. Every file in the repo root is meaningful:
   this repo into `$HOME`. So editing the file here *is* editing the live config.
   Existing non-symlink files are backed up to `*.backup` before linking.
 - **`make setup` ordering matters.** Targets run in this order:
-  `brew → symlink → ohmyzsh → claude → neovim-config → asdf-setup → zsh-plugins`.
+  `brew → symlink → ohmyzsh → claude → claude-config → neovim-config → asdf-setup → zsh-plugins`.
   `symlink` must precede `neovim-config` because the Neovim repo is cloned over
   SSH and needs `~/.ssh/config` in place first. Preserve this ordering if you
   touch the `setup` target.

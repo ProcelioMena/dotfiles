@@ -6,12 +6,12 @@ PYTHON_VERSION = 3.11.9
 NODE_VERSION = 22.11.0
 
 # Makefile
-.PHONY: setup brew symlink ohmyzsh claude neovim-config asdf-setup zsh-plugins
+.PHONY: setup brew symlink ohmyzsh claude claude-config neovim-config asdf-setup zsh-plugins
 
 # Running `make setup` triggers all these targets in order.
 # `symlink` runs before `neovim-config` so the SSH config is in place
 # before the Neovim repo is cloned over SSH.
-setup: brew symlink ohmyzsh claude neovim-config asdf-setup zsh-plugins
+setup: brew symlink ohmyzsh claude claude-config neovim-config asdf-setup zsh-plugins
 
 brew:
 	@echo "Installing dependencies from Brewfile..."
@@ -33,6 +33,18 @@ claude:
 		curl -fsSL https://claude.ai/install.sh | bash; \
 	else \
 		echo "Claude Code is already installed."; \
+	fi
+
+claude-config:
+	@echo "Setting up Claude Desktop configuration..."
+	@mkdir -p "$$HOME/Library/Application Support/Claude"
+	@if [ -f "$$HOME/Library/Application Support/Claude/claude_desktop_config.json" ] && [ ! -L "$$HOME/Library/Application Support/Claude/claude_desktop_config.json" ]; then \
+		echo "Backing up existing Claude Desktop config..."; \
+		mv "$$HOME/Library/Application Support/Claude/claude_desktop_config.json" "$$HOME/Library/Application Support/Claude/claude_desktop_config.json.backup"; \
+	fi
+	@if [ ! -L "$$HOME/Library/Application Support/Claude/claude_desktop_config.json" ]; then \
+		ln -s "$$PWD/claude_desktop_config.json" "$$HOME/Library/Application Support/Claude/claude_desktop_config.json"; \
+		echo "Symlinked Claude Desktop config successfully."; \
 	fi
 
 neovim-config:
