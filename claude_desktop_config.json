@@ -8,7 +8,8 @@
       ],
       "env": {
         "AZURE_DEVOPS_ORG_URL": "https://dev.azure.com/YOUR_ORG",
-        "AZURE_DEVOPS_PAT": "YOUR_PAT"
+        "AZURE_DEVOPS_PAT": "YOUR_PAT",
+        "AZURE_DEVOPS_AUTH_METHOD": "pat"
       }
     }
   }
