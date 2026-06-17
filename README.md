@@ -44,7 +44,8 @@ make setup
 | `symlink`       | Symlinks `.zshrc` → `~/.zshrc` and `ssh_config` → `~/.ssh/config` (backs up existing files) |
 | `ohmyzsh`       | Installs Oh My Zsh if missing                             |
 | `claude`        | Installs the Claude Code native binary if missing         |
-| `claude-config` | Symlinks `claude_desktop_config.json` for ADO MCP support |
+| `claude-config` | Symlinks `claude_desktop_config.json` (Claude Desktop ADO MCP) |
+| `claude-mcp`    | Registers the `azure-devops` MCP server with Claude Code (CLI) at user scope, so it works in every project |
 | `neovim-config` | Clones (or pulls) the Neovim config over SSH              |
 | `asdf-setup`    | Adds asdf plugins and installs/pins the pinned toolchains |
 | `zsh-plugins`   | Installs `zsh-autosuggestions` and `zsh-syntax-highlighting` |
@@ -67,3 +68,7 @@ Defined at the top of the `Makefile`:
   if the referenced directory does not exist.
 - **AWS Login:** Use `aws-login [profile]` (defaults to `default`) to trigger AWS SSO login.
 - **Claude ADO MCP:** Edit `claude_desktop_config.json` with your Azure DevOps PAT and Org URL.
+  This file is the single source of truth — `claude-config` symlinks it for Claude
+  Desktop, and `claude-mcp` reads the same values to register the server with the
+  Claude Code CLI (`claude mcp ... --scope user`). To re-register after changing the
+  PAT: `claude mcp remove azure-devops -s user && make claude-mcp`.

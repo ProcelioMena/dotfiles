@@ -6,12 +6,12 @@ PYTHON_VERSION = 3.11.9
 NODE_VERSION = 22.11.0
 
 # Makefile
-.PHONY: setup brew symlink ohmyzsh claude claude-config neovim-config asdf-setup zsh-plugins
+.PHONY: setup brew symlink ohmyzsh claude claude-config claude-mcp neovim-config asdf-setup zsh-plugins
 
 # Running `make setup` triggers all these targets in order.
 # `symlink` runs before `neovim-config` so the SSH config is in place
 # before the Neovim repo is cloned over SSH.
-setup: brew symlink ohmyzsh claude claude-config neovim-config asdf-setup zsh-plugins
+setup: brew symlink ohmyzsh claude claude-config claude-mcp neovim-config asdf-setup zsh-plugins
 
 brew:
 	@echo "Installing dependencies from Brewfile..."
@@ -45,6 +45,18 @@ claude-config:
 	@if [ ! -L "$$HOME/Library/Application Support/Claude/claude_desktop_config.json" ]; then \
 		ln -s "$$PWD/claude_desktop_config.json" "$$HOME/Library/Application Support/Claude/claude_desktop_config.json"; \
 		echo "Symlinked Claude Desktop config successfully."; \
+	fi
+
+claude-mcp:
+	@echo "Registering Azure DevOps MCP server for Claude Code (user scope)..."
+	@if ! command -v claude &> /dev/null; then \
+		echo "Claude Code not installed; skipping MCP registration. Run 'make claude' first."; \
+	elif claude mcp get azure-devops &> /dev/null; then \
+		echo "azure-devops MCP server already registered."; \
+	else \
+		SERVER_JSON=$$(/usr/bin/python3 -c "import json; print(json.dumps(json.load(open('claude_desktop_config.json'))['mcpServers']['azure-devops']))"); \
+		claude mcp add-json azure-devops --scope user "$$SERVER_JSON"; \
+		echo "Registered azure-devops MCP server (available in all Claude Code projects)."; \
 	fi
 
 neovim-config:
