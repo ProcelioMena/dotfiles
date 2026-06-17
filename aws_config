@@ -1,0 +1,18 @@
+[sso-session access]
+sso_start_url = https://d-XXXXXXXXXX.awsapps.com/start
+sso_region = us-east-2
+sso_registration_scopes = sso:account:access
+
+[profile dev]
+sso_session = access
+sso_account_id = YOUR_DEV_ACCOUNT_ID
+sso_role_name = PowerUserAccess
+region = us-east-2
+output = json
+
+[profile qa]
+sso_session = access
+sso_account_id = YOUR_QA_ACCOUNT_ID
+sso_role_name = PowerUserAccess
+region = us-east-2
+output = json

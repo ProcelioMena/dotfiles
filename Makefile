@@ -6,12 +6,12 @@ PYTHON_VERSION = 3.11.9
 NODE_VERSION = 22.11.0
 
 # Makefile
-.PHONY: setup brew symlink ohmyzsh claude claude-config claude-mcp neovim-config asdf-setup zsh-plugins
+.PHONY: setup brew symlink ohmyzsh claude claude-config claude-mcp aws-config neovim-config asdf-setup zsh-plugins
 
 # Running `make setup` triggers all these targets in order.
 # `symlink` runs before `neovim-config` so the SSH config is in place
 # before the Neovim repo is cloned over SSH.
-setup: brew symlink ohmyzsh claude claude-config claude-mcp neovim-config asdf-setup zsh-plugins
+setup: brew symlink ohmyzsh claude claude-config claude-mcp aws-config neovim-config asdf-setup zsh-plugins
 
 brew:
 	@echo "Installing dependencies from Brewfile..."
@@ -57,6 +57,18 @@ claude-mcp:
 		SERVER_JSON=$$(/usr/bin/python3 -c "import json; print(json.dumps(json.load(open('claude_desktop_config.json'))['mcpServers']['azure-devops']))"); \
 		claude mcp add-json azure-devops --scope user "$$SERVER_JSON"; \
 		echo "Registered azure-devops MCP server (available in all Claude Code projects)."; \
+	fi
+
+aws-config:
+	@echo "Setting up AWS CLI configuration..."
+	@mkdir -p "$$HOME/.aws"
+	@if [ -f "$$HOME/.aws/config" ] && [ ! -L "$$HOME/.aws/config" ]; then \
+		echo "Backing up existing AWS config..."; \
+		mv "$$HOME/.aws/config" "$$HOME/.aws/config.backup"; \
+	fi
+	@if [ ! -L "$$HOME/.aws/config" ]; then \
+		ln -s "$$PWD/aws_config" "$$HOME/.aws/config"; \
+		echo "Symlinked AWS config successfully. Fill in real account IDs / start URL, then run 'aws-login dev'."; \
 	fi
 
 neovim-config:

@@ -46,6 +46,7 @@ make setup
 | `claude`        | Installs the Claude Code native binary if missing         |
 | `claude-config` | Symlinks `claude_desktop_config.json` (Claude Desktop ADO MCP) |
 | `claude-mcp`    | Registers the `azure-devops` MCP server with Claude Code (CLI) at user scope, so it works in every project |
+| `aws-config`    | Symlinks `aws_config` → `~/.aws/config` (SSO session + `dev`/`qa` profiles; backs up existing) |
 | `neovim-config` | Clones (or pulls) the Neovim config over SSH              |
 | `asdf-setup`    | Adds asdf plugins and installs/pins the pinned toolchains |
 | `zsh-plugins`   | Installs `zsh-autosuggestions` and `zsh-syntax-highlighting` |
@@ -67,6 +68,11 @@ Defined at the top of the `Makefile`:
 - `.zshrc` includes a project-specific PATH entry (`wbuilder`) that is harmless
   if the referenced directory does not exist.
 - **AWS Login:** Use `aws-login [profile]` (defaults to `default`) to trigger AWS SSO login.
+  `aws-config` symlinks `aws_config` → `~/.aws/config`, which defines a shared `access`
+  SSO session plus `dev` and `qa` profiles. The committed file uses **placeholders** for the
+  SSO start-url directory ID and the account IDs — fill in your real values locally (the
+  symlinked file is the live config), then `aws-login dev` to authenticate. One SSO login
+  covers both profiles since they share the session.
 - **Claude ADO MCP:** Edit `claude_desktop_config.json` with your Azure DevOps PAT and Org URL.
   This file is the single source of truth — `claude-config` symlinks it for Claude
   Desktop, and `claude-mcp` reads the same values to register the server with the
