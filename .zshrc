@@ -139,5 +139,7 @@ function aws-login() {
   aws sso login --profile "$profile"
 }
 
-# Wonderful wbuilder
-export PATH="$HOME/workspace/wonderful/andean-site/utils/wbuilder:$PATH"
+alias mongo-dev="python3 $HOME/workspace/access/CSP/apps/data-services/Scripts/Python/reconciliation/mongo_shell.py --env dev"
+alias mongo-qa="python3 $HOME/workspace/access/CSP/apps/data-services/Scripts/Python/reconciliation/mongo_shell.py --env test"
+
+export AWS_PAGER=""
